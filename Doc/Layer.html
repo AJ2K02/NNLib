@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>	
+	<title>Layer Documentation</title>
+</head>
+<body>	
+	<h2>Description</h2>	
+		La classe <code>Layer</code> est une classe dont héritent toutes les classes représentant des couches. Cela permet à certaines fonctions de la bibliothèque de pouvoir prendre en paramètre n'importe quel type de couche en utilisant le polymorphisme. Notons que les méthodes ce cette classe n'existent que pour être ré-implémentées par les classes filles. Appeler une méthode directement d'un objet de type <code>Layer</code>
+		affichera simplement un message d'erreur dans <code>std::cerr</code>.
+
+	<h2>Getters / Setters</h2><hr>
+
+		<font size="4"><code> 	virtual std::string get_name() const { std::cerr &lt;&lt; "Oops, function get_name not overriden\n"; };<br> </code></font>		<p> Retourne le nom de la couche (pour sauvergarder la couche dans un fichier texte) </p><hr>
+
+		<font size="4"><code> 	virtual Matrix get_weights() const;<br> </code></font>		<p> Retourne la matrice de poids. </p><hr>
+
+		<font size="4"><code> 	virtual Matrix get_delta_w() const;<br> </code></font>		<p> Retourne la matrice du gradient de l'erreur par rapport aux poids. </p><hr>
+
+		<font size="4"><code> 	virtual EVector get_biases() const;<br> </code></font>		<p> Retourne le vecteur d'unités de biais. </p><hr>
+
+		<font size="4"><code> 	virtual EVector get_delta_b() const;<br> </code></font>		<p> Retourne le vecteur du gradient de l'erreur par rapport aux unités de biais. </p><hr>
+
+		<font size="4"><code> 	virtual Real get_lr() const;<br> </code></font>		<p> Retourne le taux d'apprentissage. </p><hr>
+
+		<font size="4"><code> 	virtual void set_lr(const Real new_lr);<br> </code></font>		<p> Défini le taux d'apprentissage. </p><hr>
+
+		<font size="4"><code> 	virtual Matrix get_pre_act() const;<br> </code></font>		<p> Retourne la matrice de préactivation de la dernière utilisation de la couche. </p><hr>
+
+		<font size="4"><code> 	virtual Matrix get_output() const;<br> </code></font>		<p> Retourne la matrice de sortie de la dernière utilisation de la couche. </p><hr>
+
+		<font size="4"><code> 	virtual unsigned get_inputs_nb() const;<br> </code></font>		<p> Retourne le nombre de valeurs attendues en entrée. </p><hr>
+
+		<font size="4"><code> 	virtual unsigned get_outputs_nb() const;<br> </code></font>		<p> Retourne le nombre de valeurs de sortie. </p>	<h2>Autres Méthodes</h2><hr>
+
+		<font size="4"><code> virtual void freeze(const bool v);<br> </code></font>	<p> Permet de geler ou de dégeler la couche selon que <code>v</code> vaille 0 ou 1 (gelé = les paramètres ne seront pas mis à jour lors de la rétro-propagation.) </p><hr>
+
+	<font size="4"><code> 	virtual Matrix forward(const Matrix& inputs);<br> </code></font>	<p> Méthode effectuant la propagation-avant avec <code>inputs</code> comme matrice d'entrée. </p><hr>
+
+	<font size="4"><code> 	virtual Matrix backward(const Matrix& inputs, const Matrix& dL_over_dy);<br> </code></font>	<p>  Méthode effectuant la rétro-propagation avec <code>inputs</code> comme matrice d'entrée et <code>dL_over_dy</code> étant la	 matrice contenant le gradient de l'erreur par rapport aux sorties de la couche. </p><hr>
+
+	<font size="4"><code> 	virtual void update_param();<br> </code></font>	<p> Met à jour les paramètres en utilisant les gradients, calculés au préalable. </p><hr>
+
+	<font size="4"><code> virtual void print_parameters(std::ostream& s) const;<br> </code></font>	<p> Ecrit les paramètres de la couche dans le flux &&s. </p><hr>
+
+	<font size="4"><code> virtual void load_parameters(std::ifstream& file);<br> </code></font>	<p> Charge les paramètres depuis le flux <code>file.	</code> </p><hr>
+
+	<font size="4"><code> virtual void check_hyper_parameters(const std::string& line) const;<br> </code></font>	<p>  Vérifie que les hyper-paramètres de la couche correspondent à ceux écrits dans la chaîne de caractères <code>line.	</code> Note : les vérifications sont effectuées dans des assertions (%%assert(...)). </p><hr>
+
+	<font size="4"><code> virtual void load_hyper_parameters(const std::string& line);<br> </code></font>	<p> Charge les hyper_paramètres à partir d'une chaîne de caractère <code>line.	</code> </p></body></html>

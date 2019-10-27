@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NeuralNetwork Documentation</title>
+</head>
+<body>
+	<h2> <code>class NeuralNetwork; </code> </h2>
+
+	<h2>Description</h2>
+
+	La classe <code>NeuralNetwork</code> représente un réseau de neurones. Elle peut contenir des couches, et possède des méthodes permettant d'effectuer des actions sur le réseau neuronal dans sa globalité, qu'il s'agisse de l'entraîner, de l'utiliser, ou de le sauvegarder.
+
+	<h2>Constructeurs / Destructeurs</h2>
+		<hr>
+		<font size="4"><code> NeuralNetwork() = default;<br> </code></font>
+		<p> Constructeur par défaut. </p>
+		<hr>
+
+		<font size="4"><code> NeuralNetwork(const NeuralNetwork& nn) = default;<br> </code></font>
+		<p> Constructeur par copie par défaut </p>
+		<hr>
+
+		<font size="4"><code> ~NeuralNetwork() = default;<br> </code></font>
+		<p> Destructeur par défaut. </p>
+		<hr>
+
+	<h2>Opérateurs</h2>
+		<hr>
+		<font size="4"><code> template&lt;typename LayerType><br>
+		inline NeuralNetwork& operator&lt;&lt;(const LayerType& layer);<br> </code></font>
+		<p> Permet d'ajouter une couche au réseau neuronal. </p>
+		<hr>
+		<font size="4"><code> inline Matrix operator()(const Matrix& inputs);<br> </code></font>
+		<p> Passe la matrice d'entrée <code>inputs</code> au réseau neuronal et retourne la matrice de sortie. </p>
+		<hr>
+		<font size="4"><code> inline Tensor&lt;Real> operator()(Tensor&lt;Real>& inputs);<br> </code></font>
+		<p> Passe le tenseur d'entrée <code>inputs</code> au réseau neuronal et retourne le tenseur de sortie. </p>
+		<hr>
+
+	<h2>Méthodes</h2>
+		<hr>
+		<font size="4"><code> inline bool is_valid();<br> </code></font>
+		<p>  Vérifie la valditié de l'enchaînement des couches du réseau neuronal. Vérifie que le nombre
+		 de valeurs de sorties de chaque couche correspond au nombre de valeurs d'entrées de la couche suivante. </p>
+		 <hr>
+		<font size="4"><code> inline void set_global_learning_rate(const double lr);<br> </code></font>
+		<p> Défini le taux d'apprentissage de chaque couche avec la valeur <code>lr.
+		</code> </p>
+ 		<hr>
+		<font size="4"><code> inline void update_params();<br> </code></font>
+		<p>  Met à jour les paramètres de chaque couche
+		 en utilisant les gradients (qui doivent avoir été calculés au préalable). </p>
+		 <hr>
+		<font size="4"><code> template&lt;typename ...Args><br>
+		inline void freeze(Args&& ...layers);<br> </code></font>
+		<p>  Prend des entiers naturels en paramètres qui indiquent les couches à geler.
+		 Geler une couche signifie que ses paramètres ne sont pas à mettre à jour lors de
+		 la rétro-propagation. </p>
+		 <hr>
+		<font size="4"><code> template&lt;typename ...Args><br>
+		inline void unfreeze(Args&& ...layers);<br> </code></font>
+		<p>  Prend des entiers naturels en paramètres qui indiquent les couches à dégeler.
+		 Dégeler une couche signifie que ses paramètres sont à mettre à jour lors de
+		 la rétro-propagation. </p>
+		 <hr>
+		<font size="4"><code> template &lt;typename Loss = MSELoss><br>
+		void backpropagation(const Matrix& inputs, const Matrix& outputs, const Matrix& labels);<br> </code></font>
+		<p> Méthode effectuant la rétro-propagation. </p>
+		<hr>
+		<font size="4"><code> template &lt;typename Loss = MSELoss, typename T><br>
+		inline void train(Tensor&lt;T>& inputs, Tensor&lt;T>& labels, unsigned epochs);<br> </code></font>
+		<p>  Méthode permettant d'entraîner le réseau neuronal sur le tenseur d'entrée <code>inputs
+		</code> et ses étiquettes correspondantes <code>labels.</code> <code>epochs</code> indique le nombre d'époques
+		 effectuées. </p>
+		<hr> 
+		<font size="4"><code> template &lt;typename Loss = MSELoss, typename T><br>
+		inline void train(Tensor&lt;T>& inputs, Tensor&lt;T>& labels, unsigned epochs,<br>
+		std::function&lt;Real(const Real, const unsigned)>& lr_updater);<br> </code></font>
+		<p>  Méthode permettant d'entraîner le réseau neuronal sur le tenseur d'entrée <code>inputs
+		</code> et ses étiquettes correspondantes <code>labels.</code> <code>epochs</code> indique le nombre d'époques
+		 effectuées.
+		 Le paramètre <code>lr_updater</code> est un functor appelé à chaque itération, prenant en paramètre
+		 le taux d'apprentissage actuel et le nombre d'itérations effectuées. Ce functor retourne
+		 le nouveau taux d'apprentissage. </p>
+		 <hr>
+		<font size="4"><code> template &lt;typename Loss = MSELoss><br>
+		inline void train(Dataset& dataset, const unsigned epochs);<br> </code></font>
+		<p>  Méthode permettant d'entraîner le réseau neuronal sur le dataset <code>dataset.</code> <code>epochs</code> indique
+		 le nombre d'époques effectuées. </p>
+		 <hr>
+		<font size="4"><code> template &lt;typename Loss = MSELoss><br>
+		inline void train(Dataset& dataset, const unsigned epochs,<br>
+		std::function&lt;Real(const Real, const unsigned)> lr_updater);<br> </code></font>
+		<p>  Méthode permettant d'entraîner le réseau neuronal sur le dataset <code>dataset.</code> <code>epochs</code> indique
+		 le nombre d'époques effectuées.
+		 Le paramètre <code>lr_updater</code> est un functor appelé à chaque itération, prenant en paramètre
+		 le taux d'apprentissage actuel et le nombre d'itérations effectuées. Ce functor retourne
+		 le nouveau taux d'apprentissage. </p>
+		 <hr>
+		<font size="4"><code> inline void save(const std::string& path) const;<br> </code></font>
+		<p> Enregistre le réseau neuronal dans un fichier dont le chemin d'accès est <code>path.
+		</code> </p>
+		<hr>
+		<font size="4"><code> inline void load(const std::string& path);<br> </code></font>
+		<p> Charge les paramètres du réseau neuronal depuis un fichier dont le chemin d'accès est <code>path.
+		</code> </p>
+		<hr>
+</body>
+</html>

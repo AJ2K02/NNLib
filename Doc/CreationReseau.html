@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Guide : création d'un réseau neuronal</title>
+	</head>
+	<body>
+		<font size="4">
+		<h1> Guide : Création d'un réseau neuronal </h1>
+		<p> Dans ce guide, nous allons voir comment créer un réseau neuronal et l'entraîner. La librairie a été créée dans le but de rendre ce processus très aisé pour l'utilisateur, et il est donc facile de créer un premier réseau neuronal. </p>
+
+		<h2> Création du réseau </h2>
+		<p> La création d'un réseau de neurone et de ses couches se fait de la manière suivante : <br> <br>
+			<code>
+				NeuralNetwork nn; //création du réseau neuronal <br>
+				//Ajout des couches : <br>
+				nn << FullyConnected&lt;Relu>(2, 3) << FullyConnected&lt;Tanh>(3, 1); <br><br>
+			</code>
+			Pour ajouter des couches au réseau neuronal, il suffit donc d'utiliser l'opérateur << sur le réseau neuronal. 
+			Ici, nous ajoutons d'abord une couche dense de trois neurones avec comme fonction d'activation Relu, couche prenant deux entrées. Ensuite, nous ajoutons une deuxième couche dense, cette fois ci avec un seul neurone et la fonction d'activation tanh. Cette couche prend trois valeurs en entrée. 
+			Nous avons donc créé un réseau de neurone prenant en entrée deux valeurs, et en retournant une seule. 
+		</p>
+		<h2> Charger les données d'apprentissage </h2>
+		<p> Afin d'entraîner le réseau de neurone, nous avons besoin de données sur lesquelles le réseau neuronal pourra apprendre. Pour ce faire, nous utilisons une structure appelée <a href="Dataset.html">Dataset</a>. Celle-ci possède quatres conteneurs de type <a href="Tensor.htlm">Tensor</a> : un pour les données d'entrées d'entraînement, un pour leurs étiquettes correspondantes, et deux autres similaires pour les données de test du réseau. <br><br>
+			<code>
+				Dataset dataset;<br>
+				dataset.training_data = /*...*/;<br>
+				dataset.training_labels = /*...*/;<br>
+				dataset.test_data = /*...*/;<br>
+				dataset.test_labels = /*...*/;<br><br>
+			</code>
+		Notons que si on se contente d'entraîner le réseau, seules les trois premières lignes sont nécessaires. </p>
+		<h2> Entraîner le réseau neuronal </h2>
+		<p> Nous sommes maintenant prêts à débuter l'apprentissage. Pour ce faire, nous utilisons la méthode <br> <code>NeuralNetwork::train(const Dataset& data, const unsigned epochs) </code>.<br>
+		Cependant, il faut auparavant choisir un taux d'apprentissage pour le réseau neuronal. Nosu obtenons donc le code suivant : <br><br>
+		<code>
+		nn.set_global_learning_rate(1e-3); //On choisit un taux d'apprentissage de 0.001<br>
+		nn.train(dataset, 5); //On entraîne le réseau neuronal sur nos données, en 5 époques.<br><br>
+		</code> </p>
+
+		<h2> Tester le réseau neuronal </h2>
+		<p> Nous avons maintenant entraîné notre réseau avec succès. Il ne reste plus qu'à le tester à l'aide des données que nous avons placées dans l'objet <code>dataset </code>. La librairie ne propose pas de méthodes pour tester les réseaux neuronaux puisque la manière de les tester diffère des applications. Pour passer un tenseur d'inputs dans le réseau neuronal, nous utilisons l'opérateur () : <br>
+			<code>Tensor&lt;double> prediction = nn(dataset.test_data); </code><br>
+		La ligne de code ci-dessus permet de stocker les prédictions du réseau neuronal pour les données de test dans un tenseur <code>prediction</code>. </p>
+	</font>
+	</body>
+</html>

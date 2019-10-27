@@ -1,0 +1,34 @@
+<!DOCTYPE html>	
+<html>
+<head>
+	<title>Manipulation des données : datasets et transformations.</title>
+</head>
+<body><font size="4">
+	<h1>Guide : Manipulation des données : datasets et transformations.</h1>
+	<p>Dans cette librairie, les données sont transmises au réseau neuronal grâce à une structure de données spéciale : le <a href="Tensor.html">Tensor</a>. Il s’agit d’un tableau multidimensionnel : par exemple, un vecteur est un Tensor de rang 1 et une matrice un Tensor de rang 2. Cependant, afin de ne pas multiplier le nombre de paramètres à passer à chaque fonction de la bibliothèque, il existe une structure faite pour être passée à la fonction d’apprentissage des réseaux neuronaux : le <a href="Dataset.html">Dataset</a>.</p>
+
+	<h2>Utilisation de la structure Dataset</h2>
+	<p>Cette structure contient principalement quatre objets de type Tensor, de la manière suivante : 
+	<ul>
+	 <li> <code>training_labels</code> : Etiquettes pour les données d’apprentissage</li>
+	 <li> <code>training_data</code> : Données d’apprentissage</li>
+	 <li> <code>test_labels</code> : Etiquettes pour les données de test</li>
+	 <li> <code>test_data</code> : Données de test.</li>
+	</ul>	
+	Ainsi, il suffit de passer cette structure en paramètre à la fonction train d’un réseau neuronal pour l’entraîner, et toutes les données d’entraînement sont regroupées en un objet.</p>
+
+	<h2>Les transformations</h2>
+
+	<p>Lorsqu’on récolte des données que l’on va ensuite utiliser avec des algorithmes de deep learning, il peut être intéressant d’appliquer certaines modifications aux données avant leur utilisation. On parle, en anglais, de pre-processing. Par exemple, si on travaille avec des images, il est parfois avantageux de ramener la valeur de chaque composante de chaque pixel à l’intervalle [0, 1].</p>
+
+	<p>C’est pourquoi la librairie implémente les transformations. Il s’agit d’une fonction appliquée à chaque Tensor du Dataset.
+	Par exemple, si nous souhaitons transformer chaque donnée de training_data et de test_data de l’intervalle [0;255] à l’intervalle [0; 1], nous pouvons utiliser le code suivant :<br><br>
+
+	<code>my_dataset.add_data_transforms(Divide(255.0)); // Ajoute la transformation souhaitée<br>
+	my_dataset.apply_data_transforms(); // Applique les transformations qui ont été ajoutées</code><br><br>
+
+	Pour plus d’informations sur les transformations existantes et sur la procédure à suivre pour créer vos propres transformations : <a href="Transform.html">page sur les transformations</a>.</p>
+
+</font>
+</body>
+</html>

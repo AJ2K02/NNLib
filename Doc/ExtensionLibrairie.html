@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Extension de la librairie</title>
+</head>
+<body><font size="4">
+	<h1>Ajouter ses propres types à la librairie</h1>
+	<p>Un des avantages de cette librairie est sa modularité. En effet, il est très facile de créer ses propres types de couche, de fonction, d'initialisation, etc. Nous allons ici voir comment créer ces nouveaux éléments et les incorporer au reste de la librairie.</p>
+
+	<h2>Créer de nouvelles couches</h2>
+	<p> Chaque couche au sein de la librairie hérite nécessairement de la classe parent <a href="Layer.html"><code>Layer</code></a>. Afin de créer une nouvelle couche, il faut créer une nouvelle classe et la faire hériter de <code>Layer</code>. Ensuite, il suffit de ré-implémenter ses différentes de méthodes virtuelles.</p> Exemple : <br>
+	<PRE><code>
+	class DropoutLayer : public Layer {
+	public:
+		std::string get_name() const override { return /*...*/; }
+		
+		/*...*/
+
+	private:
+		/*...*/
+	};
+	</code></PRE>
+
+	<h2>Créer de nouvelles fonctions d'activations</h2>
+	Créer ses propres fonctions d'activation est extrêmement simple. Il n'y a même pas besoin d'hériter d'une classe parent : il suffit d'implémenter trois méthodes statiques:
+	<ul><code>
+	<li>static std::string get_name(); //Retourne le nom de la fonction</li>
+	<li>static Real MonActivation::forward(const Real x); //Fonction d'activation </li>
+	<li>static Real MonActivation::backward(const Real x); //Dérivée de la fonction d'activation</li></code>
+	</ul>	
+
+	Voici, par exemple, l'implémentation de la classe <code>Relu</code>.
+	<PRE><code>
+	class Relu {
+	public:
+	    static std::string get_name() {
+	        return "Relu";
+	    }
+
+	    static Real forward(const Real x) {
+	        return x >= 0 ? x : 0;
+	    }
+
+	    static Real derivative(const Real x) {
+	        return x >= 0 ? 1 : 0;
+	    }
+	};
+	</code></PRE>
+
+	<h2>Créer de nouvelles fonctions d'erreurs</h2>
+	La création d'une nouvelle fonction d'erreur est similaire à celle d'une fonction d'activation. Les méthodes nécessaires sont les suivantes :
+	<ul><code>
+		<li>static Real MonErreur::forward(const RMMat&lt;Real>& predictions, const RMMat&lt;Real>& labels); //Fonction d'erreur</li>
+		<li>static RMMat&lt;Real> MonErreur::backward(const RMMat&lt;Real>& predictions, const RMMat&lt;Real>& labels); //Dérivée de la fonction</li>
+	</code></ul>
+	Voici, par exemple, l'implémentation de la classe <code>MSELoss</code>.
+	<PRE><code>
+	class MSELoss {
+	public:
+	    static Real forward(const RMMat&lt;Real>& pred, const RMMat&lt;Real>& labels) {
+	        return (pred - labels).array().square().sum();
+	    }
+
+	    static RMMat&lt;Real> backward(const RMMat&lt;Real>& pred, const RMMat&lt;Real>& labels) {
+	        return 2 * (pred - labels);
+	    }
+	};
+	</code></PRE>
+
+	<h2>Créer ses propres initialisations.</h2>
+	Créer son propre type d'initialisation fonctionne de la même manière que pour les fonctions d'activation et d'erreur : il suffit de créer une classe avec deux méthodes statiques :
+	<ul><code>
+		<li>static void MonInitialisation::initialize_weight(RMMat&lt;Real>& w, const unsigned fan_in, const unsigned fan_out);</li>
+    	<li>static void MonInitialisation::initialize_bias(RMMat&lt;Real>& b, const unsigned fan_in, const unsigned fan_out);</li>
+	</code></ul>
+
+	Ces méthodes servent à initialiser respectivement les poids et les unités de biais. La matrice prise en paramètre contient ces paramètres, et elle doit être modifiée avec les nouveaux paramètres correctement initialisés.
+	Les paramètres <code>fan_in</code> et <code>fan_out</code> correspondent respectivement au nombre de valeurs en entrée et par en sortie de la couche dont les paramètres sont initialisés.
+</font>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html><html><head>	<title>FullyConnected Documentation</title></head><body><h2>Description</h2>	<p>La classe <code>FullyConnected</code> est un type de couche. Elle représente les couches entièrement connectées, aussi dites denses.</p><h2>Constructeurs</h2><hr>
+	<font size="4"><code> 	FullyConnected() = default;<br> </code></font>	<p> Constructeur par defaut. </p><hr>
+	<font size="4"><code> 	FullyConnected(const unsigned inputs, const unsigned outputs);<br> </code></font>	<p>  Constructeur prenant deux paramètres :<br>	 <code>inputs</code> : Nombre de valeurs d'entrée ;<br>	 <code>outputs</code> : Nombre de neurones de la couche. </p><hr>
+	<font size="4"><code> 	FullyConnected(const FullyConnected& rhs) = default;<br> </code></font>	<p> Constructeur par copie. </p><hr>
+	<font size="4"><code> 	FullyConnected& operator=(const FullyConnected& rhs);<br> </code></font>	<p> Opérateur d'assignement par copie. </p><h2>Getters / Setters</h2><hr>
+	<font size="4"><code> 	Matrix get_weights() const;<br> </code></font>	<p> Retourne la matrice de poids. </p><hr>
+	<font size="4"><code> 	EVector get_biases() const;<br> </code></font>	<p> Retourne le vecteur d'unités de biais. </p><hr>
+	<font size="4"><code> 	double get_lr() const;<br> </code></font>	<p> Retourne le taux d'apprentissage de la couche. </p><hr>
+	<font size="4"><code> 	void set_lr(const double new_lr);<br> </code></font>	<p> Permet de definir le taux d'apprentissage. </p><hr>
+	<font size="4"><code> 	Matrix get_pre_act() const;<br> </code></font>	<p> Retourne la matrice de pré-activation résultant de la dernière utilisation de la couche. </p><hr>
+	<font size="4"><code> 	Matrix get_output() const;<br> </code></font>	<p> Retourne la matrice de sortie résultant de la dernière utilisaion de la couche. </p><hr>
+	<font size="4"><code> 	Matrix get_delta_w() const;<br> </code></font>	<p> Retourne la matrice de gradient de l'erreur par rapport aux poids. </p><hr>
+	<font size="4"><code> EVector get_delta_b() const;<br> </code></font>	<p> Retourne la matrice de gradient de l'erreur par rapport aux unités de biais. </p><h2>Méthodes</h2><hr>
+	<font size="4"><code> 	void freeze(const bool v = true);<br> </code></font>	<p>  Permet de geler ou de dé-geler le calcul des gradients au sein de la couche. </p><hr>
+	<font size="4"><code> 	Matrix forward(const Matrix& inputs);<br> </code></font>	<p>  Calcule l'output de la couche pour une matrice d'entrée <code>inputs</code>. </p><hr>
+	<font size="4"><code> 	Matrix backward(const Matrix& inputs, const Matrix& dL_over_dy);<br> </code></font>	<p>  Calcule les gradients de l'erreur par rapport aux poids et aux biais.	 <code>inputs</code> est la matrice d'inputs qui avait ete passée à la couche ;<br>	 <code>dL_over_dy</code> est la matrice des derivées de L (l'erreur) par rapport à la sortie de la couche. </p><hr>
+	<font size="4"><code> 	void update_param();<br> </code></font>	<p>  Met à jour les poids et les biais de la couche grâce aux gradients, qui doivent avoir étés calculés au préalable. </p></body></html>

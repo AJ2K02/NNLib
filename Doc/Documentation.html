@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Librairie de Deep Learning : Documentation</title>
+	</head>
+	<body>
+		<h2>Présentation</h2>
+		<font size="4"><p>Cette bibliothèque est une bibliothèque de réseaux de neurones. Elle permet de prendre ceux-ci en main très facilement, qu'il s'agisse de les créer ou de les entraîner. L'utilisateur a simplement besoin de créer le réseau de neurones et il pourra l'entraîner ou l'utiliser en un appel de fonction. Il n'a pas à se préoccuper des calculs de propagation du gradient ou autres détails d'implémentations, ces derniers étant pris en charge par la librairie directement.</p>
+
+		<p>Cette documentation contient des guides ainsi que des pages détaillant le contenu et le fonctionnement de chaque classe de l'interface. Ces pages expliquent chaque méthode des classes ainsi que les paramètres attendus. Les guides, eux, offrent une vision plus générale de la bibliothèque et permettent d'apprendre rapidement à l'utiliser.</p></font>
+
+		<h2>
+			Guides :
+		</h2>	
+		<font size="4"><ul>
+		<li><a href="CreationReseau.html"> Guide de création d'un réseau neuronal </a></li>
+		<li><a href="ManipulationDonnees.html"> Manipulation des données </a></li>
+		<li><a href="ExtensionLibrairie.html"> Etendre la librairie en rajoutant des fonctionnalités</a></li>
+		<li><a href="ListeFonctions.html">Fonctions d'activation et d'erreur disponibles</a></li>
+		</ul></font>
+
+		<h2>
+			Classes :
+		</h2>
+		<font size="4">
+		<ul>
+		<li><a href="Conv2d.html"> Conv2d</a></li>		
+		<li><a href="Dataset.html"> Dataset</a></li>
+		<li><a href="FullyConnected.html"> FullyConnected</a></li>
+		<li><a href="Layer.html"> Layer</a></li>		
+		<li><a href="NeuralNetwork.html"> NeuralNetwork</a></li>
+		<li><a href="Tensor.html"> Tensor</a></li>
+		<li><a href="Transform.html"> Transform</a></li>
+		</ul>
+		</font>
+
+		<h2>Comment utiliser la librairie</h2>
+		<font size="4">
+		La libraire est en "header-only", ce qui signifie qu'il n'y a pas de fichier à linker, ou autre procédé similaire. Il suffit d'inclure le header "NNLib.hpp" pour pouvoir utiliser la librairie. Ensuite, tout se trouve dans l'espace de nom (namespace) <code>nnl</code>.
+	</font>
+		<h2>Remarques générales d'utilisation</h2>
+
+	<font size="4">
+		<p>Il est vivement recommandé de compiler les prorgammes utilisant cette librairie avec une option de compilation d'optimisation maximale (par exemple -O3 pour g++ ou /O2 pour MSVC). Sans cela, la librairie sera extrêmement lente et probablement inutilisable. En outre, il est possible d'utiliser plusieurs threads lors des calculs matriciels en ajoutant la ligne suivante au début de votre programme :<br>
+			<code>Eigen::setNbThreads(n); // Pour utiliser n threads</code><br>
+		Dans ce cas, il faut aussi compiler le programme en activant OpenMP (-fopenmp avec g++ par exemple)</p> Toutefois, cela ne garantit pas une grosse amélioration des performances, et peut même, dans certains cas rares, les dégrader.
+	</font>
+	</body>
+</html>
